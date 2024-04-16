@@ -8,6 +8,7 @@
 - name: Set the volume for default sound sink
   become: yes
   become_user: "{{ item }}"
+  become_method: su
   ansible.builtin.shell:
     cmd: "pacmd set-sink-volume $( pacmd stat | awk -F': ' '/^Default sink name:/{print $2}' ) {{ potos_pulseaudio_default_volume }}"
   register: set_command
