@@ -1,14 +1,9 @@
 ---
 # Get the list of currently active users, these will have the volume set
 - name: Get real user list to set volume for
-  ansible.builtin.getent:
-    database: passwd
-  register: user_list_raw
-
-- name: Get real user list to set volume for
-  set_fact:
-    all_users: "{{ user_list_raw.entries | map(attribute='name') | default([]) | list }}"
-  changed_when: no
+  ansible.builtin.shell:
+    cmd: "w -h | awk '{print $1}'"
+  register: active_users
 
 - name: Set the volume for default sound sink
   become: yes
@@ -17,7 +12,7 @@
     cmd: "pacmd set-sink-volume $( pacmd stat | awk -F': ' '/^Default sink name:/{print $2}' ) {{ default_volume }}"
   register: set_command
   failed_when: set_command.rc != 0
-  loop: "{{ all_users }}"
+  loop: "{{ active_users.stdout_lines }}"
   changed_when: no
 
 
