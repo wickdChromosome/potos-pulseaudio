@@ -1,9 +1,16 @@
 ---
 
-- name: Example task to deploy a template
-  ansible.builtin.template:
-    src: 'potos.example.j2'
-    dest: '/potos.example'
-    owner: root
-    group: root
-    mode: '0755'
+# Get name of default sound sink w/ pacmd stat
+- name: Use pacmd to get default sound sink
+  ansible.builtin.shell:
+    cmd: "pacmd stat | awk -F': ' '/^Default sink name:/{print $2}'"
+  register: default_sink
+  failed_when: default_sink.rc != 0
+
+- name: Set the volume for default sound sink
+  ansible.builtin.shell:
+    cmd: "pacmd set-sink-volume {{ default_sink }} {{ default_volume }}"
+  register: set_command
+  failed_when: set_command.rc != 0
+
+
