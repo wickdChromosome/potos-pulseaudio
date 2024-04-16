@@ -9,7 +9,7 @@
   become: yes
   become_user: "{{ item }}"
   ansible.builtin.shell:
-    cmd: "pacmd set-sink-volume $( pacmd stat | awk -F': ' '/^Default sink name:/{print $2}' ) {{ default_volume }}"
+    cmd: "pacmd set-sink-volume $( pacmd stat | awk -F': ' '/^Default sink name:/{print $2}' ) {{ potos_pulseaudio_default_volume }}"
   register: set_command
   failed_when: set_command.rc != 0
   loop: "{{ active_users.stdout_lines }}"
