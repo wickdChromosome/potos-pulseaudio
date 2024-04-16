@@ -1,16 +1,13 @@
 ---
-
-# Get a list of users that are using pulseaudio
+# Get the list of currently active users, these will have the volume set
 - name: Get real user list to set volume for
-  ansible.builtin.shell:
-    cmd: 'pactl list clients | grep application.process.user | cut -d\" -f2 | sort -u'
+  ansible.builtin.getent:
+    database: passwd
   register: user_list_raw
-  failed_when: user_list_raw.rc != 0
-  changed_when: no
 
 - name: Get real user list to set volume for
   set_fact:
-    all_users: "{{ user_list_raw.stdout_lines | default([]) }}"
+    all_users: "{{ user_list_raw.entries | map(attribute='name') | default([]) | list }}"
   changed_when: no
 
 - name: Set the volume for default sound sink
