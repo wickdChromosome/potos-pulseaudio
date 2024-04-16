@@ -20,7 +20,7 @@
     cmd: "pacmd set-sink-volume $( pacmd stat | awk -F': ' '/^Default sink name:/{print $2}' ) {{ default_volume }}"
   register: set_command
   failed_when: set_command.rc != 0
-  loop: all_users
+  loop: "{{ all_users }}"
   changed_when: no
 
 
