@@ -7,7 +7,7 @@
 
 - name: Set the volume for default sound sink
   ansible.builtin.shell:
-    cmd: 'su - {{ item }} -c \'PULSE_SERVER=/run/user/$(id -u {{ item }} )/pulse/native pactl set-sink-volume $( pactl stat | awk -F\': \' \'/^Default sink name:/{print $2}\' ) {{ potos_pulseaudio_default_volume }}\''
+    cmd: "sudo -u {{ item }} pactl -s /run/user/$(id -u {{ item }} )/pulse/native set-sink-volume $( sudo -u {{ item }} pactl -s /run/user/$(id -u {{ item }} )/pulse/native info | awk '/Default Sink:/ {print $3}' ) {{ potos_pulseaudio_default_volume }}"
   register: set_command
   failed_when: set_command.rc != 0
   loop: "{{ active_users.stdout_lines }}"
