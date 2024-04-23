@@ -1,24 +1,17 @@
 ---
 
-# Get a list of users that are using pulseaudio
-- name: Get real user list to set volume for
-  ansible.builtin.shell:
-    cmd: 'pactl list clients | grep application.process.user | cut -d\" -f2 | sort -u'
-  register: user_list_raw
-  failed_when: user_list.rc != 0
-  changed_when: no
+# Copy over desktop file template to global autostart dir
+- name: Copy over the desktop file to the new dir
+  ansible.builtin.template:
+    src: "templates/desktopfile.j2"
+    dest: "{{ potos_pulseaudio_desktopfile }}"
+    force: yes
+    mode: '0777'
 
-- name: Get real user list to set volume for
-  set_fact:
-    all_users: "{{ user_list_raw.stdout_lines | default([]) }}"
-
-- name: Set the volume for default sound sink
-  become: yes
-  become_user: {{ item }}
-  ansible.builtin.shell:
-    cmd: "pacmd set-sink-volume $( pacmd stat | awk -F': ' '/^Default sink name:/{print $2}' ) {{ default_volume }}"
-  register: set_command
-  failed_when: set_command.rc != 0
-  loop: all_users
-
-
+# Copy over sh script to set pulseaudio default volume
+- name: Copy over sound setting script
+  ansible.builtin.template:
+    src: "templates/script.j2"
+    dest: "{{ potos_pulseaudio_scriptfile }}"
+    force: yes
+    mode: '0777'

@@ -1,4 +1,9 @@
 ---
 
-# Int between 0 and 65536(0-100%)
-potos_pulseaudio_default_volume: 50000 
+# Int between 0 and 65536(0-100%), for setting
+# PulseAudio default volume
+potos_pulseaudio_default_volume: 50000
+potos_pulseaudio_desktopfile: "/etc/xdg/autostart/potos_pulseaudio.desktop"
+# Should only have part after $HOME
+potos_pulseaudio_disabled_desktopfile: ".config/autostart/potos_pulseaudio.desktop"
+potos_pulseaudio_scriptfile: "/usr/local/bin/potos-pulseconfig.sh"
