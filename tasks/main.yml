@@ -3,15 +3,15 @@
 # Copy over desktop file template to global autostart dir
 - name: Copy over the desktop file to the new dir
   ansible.builtin.template:
-    src: "templates/desktopfile.j2"
-    dest: "{{ potos_pulseaudio_desktopfile }}"
+    src: "templates/etc/xdg/autostart/desktopfile.j2"
+    dest: "/etc/xdg/autostart/{{ potos_pulseaudio_desktopfile }}"
     force: yes
     mode: '0777'
 
 # Copy over sh script to set pulseaudio default volume
 - name: Copy over sound setting script
   ansible.builtin.template:
-    src: "templates/script.j2"
-    dest: "{{ potos_pulseaudio_scriptfile }}"
+    src: "templates/usr/local/bin/script.j2"
+    dest: "/usr/local/bin/{{ potos_pulseaudio_scriptfile }}"
     force: yes
     mode: '0777'
