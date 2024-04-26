@@ -5,9 +5,21 @@
   gather_facts: no
 
   tasks:
-    - name: check if template has been applied
+    - name: import vars used in the role defaults for testing
+      ansible.builtin.include_vars:
+        dir: "../../defaults"
+
+    - name: check if template for pulseaudio volume set script has been applied
       ansible.builtin.stat:
-        path: "/potos.example"
+        path: "/etc/xdg/autostart/{{ potos_pulseaudio_desktopfile }}"
+      register: out
+      changed_when: false
+      failed_when:
+        - not out.stat.exists
+
+    - name: check if template for gnome autostart script has been applied
+      ansible.builtin.stat:
+        path: "/usr/local/bin/{{ potos_pulseaudio_scriptfile }}"
       register: out
       changed_when: false
       failed_when:
