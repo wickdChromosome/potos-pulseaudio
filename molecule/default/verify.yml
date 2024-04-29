@@ -11,7 +11,7 @@
 
     - name: check if template for pulseaudio volume set script has been applied
       ansible.builtin.stat:
-        path: "/etc/xdg/autostart/{{ potos_pulseaudio_desktopfile }}"
+        path: "/etc/xdg/autostart/potos_pulseaudio.desktop"
       register: out
       changed_when: false
       failed_when:
@@ -19,7 +19,7 @@
 
     - name: check if template for gnome autostart script has been applied
       ansible.builtin.stat:
-        path: "/usr/local/bin/{{ potos_pulseaudio_scriptfile }}"
+        path: "/usr/local/bin/potos-pulseconfig.sh"
       register: out
       changed_when: false
       failed_when:

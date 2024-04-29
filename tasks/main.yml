@@ -4,7 +4,7 @@
 - name: Copy over the desktop file to the new dir
   ansible.builtin.template:
     src: "templates/etc/xdg/autostart/desktopfile.j2"
-    dest: "/etc/xdg/autostart/{{ potos_pulseaudio_desktopfile }}"
+    dest: "/etc/xdg/autostart/potos_pulseaudio.desktop"
     force: yes
     mode: '0777'
 
@@ -12,6 +12,6 @@
 - name: Copy over sound setting script
   ansible.builtin.template:
     src: "templates/usr/local/bin/script.j2"
-    dest: "/usr/local/bin/{{ potos_pulseaudio_scriptfile }}"
+    dest: "/usr/local/bin/potos-pulseconfig.sh"
     force: yes
     mode: '0777'

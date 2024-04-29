@@ -7,6 +7,6 @@ pactl set-sink-volume $potos_pulseaudio_defsink "{{ potos_pulseaudio_default_vol
 
 # Disable this script
 mkdir -p "$HOME/.config/autostart/"
-cp "/etc/xdg/autostart/{{ potos_pulseaudio_desktopfile }}" "$HOME/.config/autostart/{{ potos_pulseaudio_desktopfile }}"
-sed -i 's/X-GNOME-Autostart-enabled=true/X-GNOME-Autostart-enabled=false/g' "$HOME/.config/autostart/{{ potos_pulseaudio_desktopfile }}"
-chmod +x "$HOME/.config/autostart/{{ potos_pulseaudio_desktopfile }}"
+cp "/etc/xdg/autostart/potos_pulseaudio.desktop" "$HOME/.config/autostart/potos_pulseaudio.desktop"
+sed -i 's/X-GNOME-Autostart-enabled=true/X-GNOME-Autostart-enabled=false/g' "$HOME/.config/autostart/potos_pulseaudio.desktop"
+chmod +x "$HOME/.config/autostart/potos_pulseaudio.desktop"
